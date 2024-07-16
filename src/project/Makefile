@@ -6,6 +6,8 @@ DIR_COSIM_IP	?= $(CURDIR)/ip
 DIR_INCLUDE		?= $(CURDIR)/include
 DIR_GENERAL		?= $(CURDIR)/general
 DIR_SRC			?= $(CURDIR)/submit
+DIR_SYN			?= $(CURDIR)/syn
+DIR_TCL			?= $(CURDIR)/tcl
 
 DIR_TEST		?= $(CURDIR)/testcode
 DIR_TESTCASE	?= $(DIR_TEST)/testcase
@@ -54,5 +56,42 @@ $(VERILATOR_TOP):$(VERILATOR_SRCS) $(DIR_COSIM_IP)
 wave:
 	gtkwave $(SIM_BUILD)/$(VERILATOR_TOP).vcd
 
-clean:
+clean_verilate:
 	rm -rf $(SIM_BUILD)
+
+# part for vivado
+# Replace with your own path, for example:
+#   If your Vivado is installed in Windows:   
+#   	 VIVADO_SETUP := call D:\App\Xilinx\Vivado\2022.2\settings64.bat
+#   or in Linux: 
+#        VIVADO_SETUP := source /opt/Xilinx/Vivado/2022.2/settings64.sh
+VIVADO_SETUP		:=  $(error "set your vivado path")
+
+CMD_PREFIX			:=	bash -c
+PATH_TRANS			:=	realpath
+DIR_PROJECT			?= 	$(DIR_BUILD)/project
+BOARD				?=	xc7a100tcsg324-1
+TOP_MODULE			?=	top 
+
+ifneq (,$(findstring microsoft,$(shell uname -a)))
+WSLENV				:=	$(WSLENV):DIR_SRC/p:DIR_SYN/p:DIR_TCL/p:DIR_BUILD/p:DIR_INCLUDE/p:DIR_GENERAL/p
+DIR_PROJECT			:=	$(DIR_BUILD)/project
+CMD_PREFIX			:=	cmd.exe /c
+PATH_TRANS			:=	wslpath -w
+endif
+
+export DIR_SRC DIR_SYN DIR_TCL DIR_PROJECT DIR_INCLUDE DIR_GENERAL
+
+bitstream:
+	mkdir -p $(DIR_PROJECT)
+	cd $(DIR_PROJECT); cp $(DIR_TCL)/vivado.tcl .; $(CMD_PREFIX) "$(VIVADO_SETUP) && set DIR_SRC && \
+		vivado -mode batch -nojournal -source vivado.tcl -tclargs -top-module $(TOP_MODULE) -board $(BOARD)"
+
+vivado:
+	mkdir -p $(DIR_PROJECT)
+	cd $(DIR_PROJECT); $(CMD_PREFIX) "$(VIVADO_SETUP) && vivado"
+
+clean_vivado:
+	rm -rf $(DIR_PROJECT)
+
+clean:clean_verilate
