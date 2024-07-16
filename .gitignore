@@ -1,0 +1,15 @@
+*~
+*.riscv
+*.host
+*.o
+*.dump
+*.out
+*.hex
+.*.swp
+*.pyc
+*.log
+*.asm
+*.elf
+/repo/build/
+/src/project/build/
+src/project/ip/
