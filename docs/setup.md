@@ -105,7 +105,11 @@ verilator 用于将 Verilog/SystemVerilog 语言转换为 C++ 程序并模拟执
         cd repo
         make verilator
     ```
-
+    输出以下版本号即为安装成功
+    ```shell
+        verilator --version
+        Verilator 5.021 devel rev v5.020-98-g365537d8e
+    ```
 >>> 请不要使用`sudo apt install verilator`来安装 verilator， 这个 verilator 版本过于老旧，无法满足实验需求
 
 ### co-simulation
