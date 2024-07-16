@@ -411,3 +411,30 @@ endmodule
 本次的 `Judge.v` 语法过于复杂，感兴趣的同学可以自行阅读。
 
 最后执行 `make verilate`，如果仿真通过最后会输出 `success!!!`，反之就是 `fail!!!` 和报错信息。
+
+### 综合下板
+
+`top` 模块电路图如下：
+
+<center>
+![led](img/lab4-1/top.png){ width="550" }
+</center>
+
+`DataGenerator` 模块提供测试数据，每按一下按钮 `N17`，`DataGenerator` 模块提供下一个数据并进行握手。运算的结果通过七段数码管显示，可以根据开关 `sw` 的值选择 128 位输出中的 32 位查看。测试数据保存在 `initial_data.hex` 中，将 `include/initial_file.vh` 的 `DATA_FILE_PATH` 修改为该文件的路径即可。
+
+其中 `sw` 对输出数据的选择关系如下：
+
+<center>
+
+| sw值 | 选择的输出         |
+|:----:|:-----------------:|
+| 00   | result_reg[31:0]  |
+| 01   | result_reg[63:32] |
+| 10   | result_reg[95:64] |
+| 11   | result_reg[127:96]|
+
+</center>
+
+执行 `make bitstream` 下板验证即可。
+
+为了便于对 `DataGenerator` 和 `ConvUnit` 协同工作进行仿真，这里提供了 `sim/top_sim.sv` 模块，可以对 `top` 模块进行仿真，大家可以在 Vivado 中自行使用。

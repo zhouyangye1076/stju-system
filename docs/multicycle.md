@@ -175,3 +175,7 @@ git checkout multicycle
 
 之前我们用回环测试的模块实现了串口收发，现在我们用处理器执行程序的方式来实现串口收发。请实现在`sys-project/testcode/testcase/uart`中的函数 uart_tx 和 uart_rx，只要在 project 目录下执行`make uart`就可以编译该文件夹下的代码得到 testcase.hex，然后用该程序进行仿真测试。为了验证串口收发的正确性，我们在`sys-project/sim`提供了 sim_uart.sv 模块用于模拟 host 的串口收发，我们的处理器会和 host 共同实现回环测试。
 
+测试通过后`make bitstream`下板验证即可，不要忘记设置 FILE_PATH。
+
+为了便于大家硬件调试，在处理器下板之后，可以将开关`sw[4:0]`拨至`10001`来查看串口内部 state 寄存器和 data 寄存器的值。
+
