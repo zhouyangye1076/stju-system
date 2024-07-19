@@ -79,6 +79,28 @@
 6. 最终的效果应该是这样的：
     ![](img/setup/wsl/6.png)
 
+## Vivado 安装
+
+1. 从[官网](https://www.xilinx.com/support/download.html)下载Vivado ML Edition 2022.2
+    - 如果系统空间不足，可以选择Windows Self Extracting Web Installer使用在线下载工具，下载过程需要保持联网
+    - Linux下选择Linux Self Extracting Web Installer，下载后在终端输入`sh <download file name>.bin`，下载过程同样需要保持联网
+    - 如果空间足够，选择最大的Xilinx Unified Installer，下载后进行解压，解压后双击xsetup.exe进行安装
+    - Linux下在终端中执行`sh xsetup`。
+2. 此处选择vivado
+    ![](img/setup/vivado/0.png)
+3. 此处选择standard
+    ![](img/setup/vivado/1.png)
+4. 此处修改为你的路径。
+    ![](img/setup/vivado/2.png)
+5. 安装完成，你可以直接从桌面的图标启动 vivado
+
+我们后续的的实验主要使用命令行的方式，方式如下：
+
+- Widows 在 CMD 中先加载 vivado 安装目录下的设置文件 settings64.bat，Linux下为 `source .../settings64.sh`
+- 然后直接输入 vivado 即可
+
+![](img/setup/vivado/3.png)
+
 ## 工具链配置
 
 ### verilator
